@@ -1,4 +1,24 @@
+import { useEffect } from 'react';
+
 function Example(): JSX.Element {
+  useEffect(() => {
+    if ('serviceWorker' in navigator) {
+      try {
+        navigator.serviceWorker.register('./worker.ts').then(res => {
+          if (res.installing) {
+            console.log('正在安装 Service worker');
+          } else if (res.waiting) {
+            console.log('已安装 Service worker installed');
+          } else if (res.active) {
+            console.log('激活 Service worker');
+          }
+        });
+      } catch (error) {
+        console.error(`注册失败：${error}`);
+      }
+    }
+  }, []);
+
   return (
     <>
       <object
